@@ -4527,7 +4527,6 @@ $.fn.dropdown = function(parameters) {
               })
             ;
           }
-
           module.debug('Showing only matched items', searchTerm);
           module.remove.filteredItem();
           $item
@@ -6129,13 +6128,15 @@ $.fn.dropdown = function(parameters) {
           userSuggestion: function(value) {
             var
               $addition         = $menu.children(selector.addition),
-              alreadyHasValue   = module.get.item(value),
+              $existingItem     = module.get.item(value),
+              alreadyHasValue   = $existingItem && $existingItem.not(selector.addition).length,
               hasUserSuggestion = $addition.length > 0,
               html
             ;
             if(settings.useLabels && module.has.maxSelections()) {
               return;
             }
+            console.log(alreadyHasValue);
             if(value === '' || alreadyHasValue) {
               $addition.remove();
               return;
@@ -15405,12 +15406,8 @@ $.fn.sticky = function(parameters) {
           },
           size: function() {
             if(module.cache.element.height !== 0 && module.cache.element.width !== 0) {
-              $module
-                .css({
-                  width  : module.cache.element.width,
-                  height : module.cache.element.height
-                })
-              ;
+              $module.get(0).style.setProperty('width',  module.cache.element.width  + 'px', 'important');
+              $module.get(0).style.setProperty('height', module.cache.element.height + 'px', 'important');
             }
           }
         },
@@ -15898,6 +15895,7 @@ $.fn.sticky.settings = {
 };
 
 })( jQuery, window , document );
+
 /*!
  * # Semantic UI 2.0.8 - Tab
  * http://github.com/semantic-org/semantic-ui/

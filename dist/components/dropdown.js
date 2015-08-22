@@ -706,7 +706,6 @@ $.fn.dropdown = function(parameters) {
               })
             ;
           }
-
           module.debug('Showing only matched items', searchTerm);
           module.remove.filteredItem();
           $item
@@ -2308,13 +2307,15 @@ $.fn.dropdown = function(parameters) {
           userSuggestion: function(value) {
             var
               $addition         = $menu.children(selector.addition),
-              alreadyHasValue   = module.get.item(value),
+              $existingItem     = module.get.item(value),
+              alreadyHasValue   = $existingItem && $existingItem.not(selector.addition).length,
               hasUserSuggestion = $addition.length > 0,
               html
             ;
             if(settings.useLabels && module.has.maxSelections()) {
               return;
             }
+            console.log(alreadyHasValue);
             if(value === '' || alreadyHasValue) {
               $addition.remove();
               return;
